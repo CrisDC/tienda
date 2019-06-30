@@ -189,6 +189,13 @@
                     <td>S/.<%=df.format(montoTotal)%></td>
                     <td></td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><button class="btn btn-primary a-btn-slide-text" data-toggle="modal" data-target="#miModal" >Pagar</button></td>
+                    <td><button class="btn btn-danger a-btn-slide-text" >Cancelar</button></td>
+                    <td></td>
+                </tr>
             </table>
           </div>
           <% } else{ %>
@@ -217,6 +224,22 @@
              <% }%>
         </section>
         <link href="Recursos/css/login.css" rel="stylesheet" type="text/css"/>
+        Modal Pago
+        <div class="modal fade" id="miModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Para Pagar</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Consola de Pagos okno.
+                        </div>
+                    </div>
+                </div>
+            </div> 
          <!-- Login Section -->
          <%if(usuario==null){%>
         <section class="page-section portfolio" id="login">
