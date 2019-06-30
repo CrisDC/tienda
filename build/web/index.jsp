@@ -189,15 +189,43 @@
                     <td>S/.<%=df.format(montoTotal)%></td>
                     <td></td>
                 </tr>
+                <%if(s.getAttribute("habilitarPagar")!=null){%>
                 <tr>
                     <td></td>
                     <td></td>
                     <td><button class="btn btn-primary a-btn-slide-text" data-toggle="modal" data-target="#miModal" >Pagar</button></td>
-                    <td><button class="btn btn-danger a-btn-slide-text" >Cancelar</button></td>
+                    <td><a href="/tienda/validarDatos.do?cancelar=si" class="btn btn-danger a-btn-slide-text" >Cancelar</a></td>
                     <td></td>
                 </tr>
+                <%}%>
             </table>
           </div>
+          <%if(s.getAttribute("habilitarPagar")==null){%>
+          <div class="container">
+		<div class="d-flex justify-content-center">
+			<div class="user_card">
+                            
+					<form action="/tienda/validarDatos.do">
+                                            <center><div class="h3 mb-0 text-gray-800">Valide sus datos antes de pagar.</div></center>
+                                                <div class="input-group mb-3"> </div>
+                                                <div class="input-group mb-3"> </div>
+						<div class="input-group mb-3">
+							<input type="text" name="nombres" class="form-control input_user" value="" placeholder="Nombres" required>
+						</div>
+                                                <div class="input-group mb-3">
+							<input type="text" name="apellidos" class="form-control input_user" value="" placeholder="Apellidos">
+						</div>
+						<div class="input-group mb-3">
+							<input type="text" name="direccion" class="form-control input_pass" value="" placeholder="Direccion">
+						</div>
+						<div class="d-flex justify-content-center mt-3 login_container">
+                                                    <input type="submit" class="btn login_btn" value="Validar">
+                                                </div>
+					</form>
+			</div>
+		</div>
+	  </div>
+          <%}%>
           <% } else{ %>
           <!-- Mensaje Carrito vacio -->
           <div class="page-section bg-primary text-white mb-0">
@@ -224,7 +252,7 @@
              <% }%>
         </section>
         <link href="Recursos/css/login.css" rel="stylesheet" type="text/css"/>
-        Modal Pago
+        <!-- Modal Pago Section -->
         <div class="modal fade" id="miModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
