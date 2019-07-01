@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,7 +32,37 @@ public class pagar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession s = request.getSession(false);
+        String nombres = (String) request.getParameter("nombresMedio");
+        String apellidos = (String) request.getParameter("apellidosMedio");
+        String direccion = (String) request.getParameter("emailMedio");
+        String habilitar = (String) request.getParameter("modal");
+        String medioPago= (String) request.getParameter("medioPago");
+        String pago = (String) request.getParameter("pago");
+        String select = (String ) request.getParameter("select");
+        //do Something
+        if(habilitar!=null){
+            s.setAttribute("nonTested","habilitado");
+            s.setAttribute("medioPago",null);
+        }
+        if(medioPago!=null){
+            s.setAttribute("medioPago",medioPago);
+        }
+        if(pago!=null){
+            s.setAttribute("nonTested",null);
+            s.setAttribute("medioPago",null);
+            s.setAttribute("habilitarPagar",null);
+        }
+        if(select!=null)
+            s.setAttribute("medioPago",null);
+        if(medioPago!=null)
+            response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
+        else{
+            if(pago!=null)
+                response.sendRedirect(request.getContextPath()+"/index.jsp"); 
+            else
+                response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

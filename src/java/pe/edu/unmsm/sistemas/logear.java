@@ -37,6 +37,9 @@ public class logear extends HttpServlet {
         }
         //ahora hacemos perdurar el carrito en la sesion
         s.setAttribute("usuario", usuario);
+            s.setAttribute("nonTested",null);
+            s.setAttribute("medioPago",null);
+            s.setAttribute("habilitarPagar",null);
         System.out.println(usuario);
         response.sendRedirect(request.getContextPath()+"/index.jsp");
     }

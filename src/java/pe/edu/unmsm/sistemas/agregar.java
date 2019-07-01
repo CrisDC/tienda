@@ -40,7 +40,7 @@ public class agregar extends HttpServlet {
         //ahora hacemos perdurar el carrito en la sesion
         s.setAttribute("carrito", carrito);
         System.out.println(carrito.toString());
-        response.sendRedirect(request.getContextPath()+"/#productos/index.jsp");
+        response.sendRedirect(request.getContextPath()+"/index.jsp#productos");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
