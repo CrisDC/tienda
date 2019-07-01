@@ -66,6 +66,7 @@ public class pagar extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/index.jsp#carrito");
         } else {
             if (pago == null) {
+                System.out.println("pago: " + pago);
                 response.sendRedirect(request.getContextPath() + "/index.jsp#carrito");
             }
         }
