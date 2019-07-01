@@ -16,12 +16,21 @@ import pe.edu.unmsm.sistemas.IComando;
 import pe.edu.unmsm.sistemas.addItemTo;
 import pe.edu.unmsm.sistemas.util.Carrito;
 import pe.edu.unmsm.sistemas.model.Item;
+import pe.edu.unmsm.sistemas.service.ICarritoService;
+import pe.edu.unmsm.sistemas.service.impl.CarritoService;
 
 /**
  *
  * @author LaboratorioFISI
  */
 public class agregar extends HttpServlet {
+    
+    ICarritoService carritoService;
+
+    public agregar() {
+        this.carritoService = new CarritoService();
+    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession s = request.getSession(false);
@@ -37,8 +46,9 @@ public class agregar extends HttpServlet {
         item.setiProduct_id(Integer.valueOf(request.getParameter("id")));
         item.setiPrecio(Float.valueOf(request.getParameter("precio")));
         //añadir el item al carrito 
-        IComando addComand = new addItemTo(carrito,item);
-        addComand.ejecutar();
+        this.carritoService.agregarItems(carrito, item);
+//        IComando addComand = new addItemTo(carrito,item);
+//        addComand.ejecutar();
         //ahora hacemos perdurar el carrito en la sesion
         s.setAttribute("carrito", carrito);
         System.out.println(carrito.toString());
