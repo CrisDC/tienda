@@ -37,31 +37,37 @@ public class pagar extends HttpServlet {
         String apellidos = (String) request.getParameter("apellidosMedio");
         String direccion = (String) request.getParameter("emailMedio");
         String habilitar = (String) request.getParameter("modal");
-        String medioPago= (String) request.getParameter("medioPago");
+        String medioPago = (String) request.getParameter("medioPago");
         String pago = (String) request.getParameter("pago");
-        String select = (String ) request.getParameter("select");
+        String select = (String) request.getParameter("select");
         //do Something
-        if(habilitar!=null){
-            s.setAttribute("nonTested","habilitado");
-            s.setAttribute("medioPago",null);
+        if (habilitar != null) {
+            s.setAttribute("nonTested", "habilitado");
+            s.setAttribute("medioPago", null);
         }
-        if(medioPago!=null){
-            s.setAttribute("medioPago",medioPago);
+        if (medioPago != null) {
+            s.setAttribute("medioPago", medioPago);
         }
-        if(pago!=null){
-            s.setAttribute("nonTested",null);
-            s.setAttribute("medioPago",null);
-            s.setAttribute("habilitarPagar",null);
+        if (pago != null) {
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Pago correcto, pulse aceptar para continuar.');");
+            out.println("location.href = \"index.jsp\";");
+            out.println("</script>");
+            s.setAttribute("nonTested", null);
+            s.setAttribute("medioPago", null);
+            s.setAttribute("habilitarPagar", null);
         }
-        if(select!=null)
-            s.setAttribute("medioPago",null);
-        if(medioPago!=null)
-            response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
-        else{
-            if(pago!=null)
-                response.sendRedirect(request.getContextPath()+"/index.jsp"); 
-            else
-                response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
+        if (select != null) {
+            s.setAttribute("select", null);
+            s.setAttribute("medioPago", null);
+        }
+        if (medioPago != null) {
+            response.sendRedirect(request.getContextPath() + "/index.jsp#carrito");
+        } else {
+            if (pago == null) {
+                response.sendRedirect(request.getContextPath() + "/index.jsp#carrito");
+            }
         }
     }
 
