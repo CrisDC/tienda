@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pe.edu.unmsm.sistemas;
+package pe.edu.unmsm.sistemas.dao;
 
-import pe.edu.unmsm.sistemas.util.Carrito;
+import pe.edu.unmsm.sistemas.model.Item;
 
 /**
  *
- * @author mnst4
+ * @author Cristhian
  */
-public interface IComando {
-    public void ejecutar();
+public interface IItemDAO extends IMantenibleDAO<Item> {
+    
 }

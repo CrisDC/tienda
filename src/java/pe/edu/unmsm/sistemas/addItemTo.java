@@ -6,7 +6,7 @@
 package pe.edu.unmsm.sistemas;
 
 import pe.edu.unmsm.sistemas.util.Carrito;
-import pe.edu.unmsm.sistemas.util.Item;
+import pe.edu.unmsm.sistemas.model.Item;
 
 /**
  *

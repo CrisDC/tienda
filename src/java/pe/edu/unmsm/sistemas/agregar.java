@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import pe.edu.unmsm.sistemas.util.Carrito;
-import pe.edu.unmsm.sistemas.util.Item;
+import pe.edu.unmsm.sistemas.model.Item;
 
 /**
  *

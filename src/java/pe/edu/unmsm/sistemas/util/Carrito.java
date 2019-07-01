@@ -5,6 +5,7 @@
  */
 package pe.edu.unmsm.sistemas.util;
 
+import pe.edu.unmsm.sistemas.model.Item;
 import java.util.ArrayList;
 import java.util.List;
 

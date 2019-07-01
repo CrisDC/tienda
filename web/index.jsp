@@ -1,20 +1,25 @@
-<%@page import="pe.edu.unmsm.sistemas.util.ParametrosSistema"%>
+<%@page import="pe.edu.unmsm.sistemas.dao.impl.ItemDAO"%>
+<%@page import="pe.edu.unmsm.sistemas.dao.IItemDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="pe.edu.unmsm.sistemas.model.ParametrosSistema"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@page import="pe.edu.unmsm.sistemas.util.Conexion"%>
+<%@page import="pe.edu.unmsm.sistemas.configuracion.Conexion"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="pe.edu.unmsm.sistemas.util.Carrito"%>
-<%@page import="pe.edu.unmsm.sistemas.util.Item"%>
-<%@page import="pe.edu.unmsm.sistemas.util.ParametrosSistema"%>
-<%@page import="pe.edu.unmsm.sistemas.util.Usuario"%>
+<%@page import="pe.edu.unmsm.sistemas.model.Item"%>
+<%@page import="pe.edu.unmsm.sistemas.model.ParametrosSistema"%>
+<%@page import="pe.edu.unmsm.sistemas.model.Usuario"%>
 <%@page import="java.sql.ResultSet"%>
 
 
 <% 
     Conexion con= Conexion.getConexion(ParametrosSistema.DRIVER, ParametrosSistema.URL,ParametrosSistema.CONECTION_USER,ParametrosSistema.CONECTION_PASS);
     //Consulta para obtener los productos
-    String sql="SELECT * FROM APP.PRODUCT FETCH FIRST 10 ROWS ONLY";
-    ResultSet res= con.ejecutarQuery(sql);
+//    String sql="SELECT * FROM APP.PRODUCT FETCH FIRST 10 ROWS ONLY";
+//    ResultSet res= con.ejecutarQuery(sql);
+    IItemDAO itemDAO = new ItemDAO();
+    List<Item> items = itemDAO.buscarTodos();
     HttpSession s = request.getSession(false); 
     Usuario usuario =(Usuario)s.getAttribute("usuario");
     System.out.println("usuario:"+usuario);
@@ -123,16 +128,16 @@
                     <th >Agregar</th>
                     <% } %>
                 </tr>
-                <% while(res.next()) { %> 
+                <% for(Item item : items) { %> 
                 <tr>
-                    <td ><%=res.getString("PRODUCT_CODE")%></td>
-                    <td><%=res.getString("DESCRIPTION")%></td>
-                    <td>S/.<%=res.getFloat("PURCHASE_COST")%></td>
-                    <td><%=res.getInt("QUANTITY_ON_HAND")%></td>
-                    <%String id="id="+res.getString("PRODUCT_ID");
-                      String cantidad="cantidad="+String.valueOf(res.getInt("QUANTITY_ON_HAND"));
-                      String precio="precio="+String.valueOf(res.getFloat("PURCHASE_COST"));%>
-                      <%if(usuario!=null&&usuario.getSesionActiva()){%>
+                    <td ><%=item.getProductCode()%></td>
+                    <td><%=item.getDescripcion()%></td>
+                    <td>S/.<%=item.getiPrecio()%></td>
+                    <td><%=item.getiCantidad()%></td>
+                    <%String id="id="+item.getiProduct_id();
+                      String cantidad="cantidad="+String.valueOf(item.getiCantidad());
+                      String precio="precio="+String.valueOf(item.getiPrecio());%>
+                      <%if(usuario!=null && usuario.getSesionActiva()){%>
                       <td ><a href="/tienda/agregar.do?<%=id+"&"+cantidad+"&"+precio%>"><img src="Recursos/img/buttons/addShopcar.svg" alt="" width="10%" height="10%"/></a></td>
                       <% } %>
                     <!--<td><button id="newButton" onclick="dd(this);">Click</button></td>-->
@@ -141,9 +146,7 @@
             </table>
           </div>
         </section>
-        <%
-        res.close();
-        %>
+        
             
         <!-- Carrito Section -->
         <section class="page-section portfolio" id="carrito">
