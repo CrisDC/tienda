@@ -44,9 +44,12 @@ public class validarDatos extends HttpServlet {
         if (!cancelar.equalsIgnoreCase("si")) {
             if (nombres != null) {
                 s.setAttribute("habilitarPagar", "Habilitado");
+                System.out.println("Paso por el habilitado");
+                      
             } 
         } else {
             s.setAttribute("habilitarPagar", null);
+            System.out.println("Paso por el no habbilitado");
         }
         System.out.println((String)s.getAttribute("habilitarPagar"));
         response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
