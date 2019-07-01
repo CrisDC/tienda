@@ -3,37 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pe.edu.unmsm.sistemas;
+package pe.edu.unmsm.sistemas.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import pe.edu.unmsm.sistemas.IComando;
 import pe.edu.unmsm.sistemas.util.Carrito;
 import pe.edu.unmsm.sistemas.model.Item;
-import pe.edu.unmsm.sistemas.model.Usuario;
+import pe.edu.unmsm.sistemas.removeItemTo;
 
 /**
  *
  * @author LaboratorioFISI
  */
-public class logout extends HttpServlet {
+public class eliminar extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession s = request.getSession(false);
-        Usuario usuario =(Usuario)s.getAttribute("usuario");
-        if(usuario != null){
-            usuario =null;
+        Carrito carrito =(Carrito)s.getAttribute("carrito");
+        if(carrito == null){
+            System.out.println("Construye carrito");
+            s.setAttribute("carrito", new Carrito());
+            carrito =(Carrito)s.getAttribute("carrito");
         }   
+        // crear el item
+        Item item = new Item();
+        item.setiProduct_id(Integer.valueOf(request.getParameter("id")));
+        //Eliminar el item del carrito 
+        IComando removeCommand = new removeItemTo (carrito,item);
+        removeCommand.ejecutar();
         //ahora hacemos perdurar el carrito en la sesion
-        s.setAttribute("usuario", usuario);
-            s.setAttribute("nonTested",null);
-            s.setAttribute("medioPago",null);
-            s.setAttribute("habilitarPagar",null);
-        response.sendRedirect(request.getContextPath()+"/index.jsp");
+        s.setAttribute("carrito", carrito);
+        System.out.println(carrito.toString());
+        response.sendRedirect(request.getContextPath()+"/index.jsp#carrito");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -2,7 +2,7 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>agregar</servlet-name>
-        <servlet-class>pe.edu.unmsm.sistemas.agregar</servlet-class>
+        <servlet-class>pe.edu.unmsm.sistemas.controller.agregar</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>agregar</servlet-name>
@@ -10,7 +10,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>verCarrito</servlet-name>
-        <servlet-class>pe.edu.unmsm.sistemas.verCarrito</servlet-class>
+        <servlet-class>pe.edu.unmsm.sistemas.controller.verCarrito</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>verCarrito</servlet-name>
@@ -18,7 +18,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>eliminar</servlet-name>
-        <servlet-class>pe.edu.unmsm.sistemas.eliminar</servlet-class>
+        <servlet-class>pe.edu.unmsm.sistemas.controller.eliminar</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>eliminar</servlet-name>
@@ -26,7 +26,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>logear</servlet-name>
-        <servlet-class>pe.edu.unmsm.sistemas.logear</servlet-class>
+        <servlet-class>pe.edu.unmsm.sistemas.controller.logear</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>logear</servlet-name>
@@ -34,7 +34,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>logout</servlet-name>
-        <servlet-class>pe.edu.unmsm.sistemas.logout</servlet-class>
+        <servlet-class>pe.edu.unmsm.sistemas.controller.logout</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>logout</servlet-name>

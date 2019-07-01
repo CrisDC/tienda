@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pe.edu.unmsm.sistemas;
+package pe.edu.unmsm.sistemas.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,26 +20,12 @@ import pe.edu.unmsm.sistemas.model.Item;
  *
  * @author LaboratorioFISI
  */
-public class eliminar extends HttpServlet {
+public class verCarrito extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession s = request.getSession(false);
+        HttpSession s = request.getSession();
         Carrito carrito =(Carrito)s.getAttribute("carrito");
-        if(carrito == null){
-            System.out.println("Construye carrito");
-            s.setAttribute("carrito", new Carrito());
-            carrito =(Carrito)s.getAttribute("carrito");
-        }   
-        // crear el item
-        Item item = new Item();
-        item.setiProduct_id(Integer.valueOf(request.getParameter("id")));
-        //Eliminar el item del carrito 
-        IComando removeCommand = new removeItemTo (carrito,item);
-        removeCommand.ejecutar();
-        //ahora hacemos perdurar el carrito en la sesion
-        s.setAttribute("carrito", carrito);
-        System.out.println(carrito.toString());
-        response.sendRedirect(request.getContextPath()+"/index.jsp#carrito");
+         response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,4 +68,3 @@ public class eliminar extends HttpServlet {
     }// </editor-fold>
 
 }
-
