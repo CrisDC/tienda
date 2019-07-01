@@ -194,6 +194,7 @@
                         <td></td>
                     </tr>
                     <%if (s.getAttribute("habilitarPagar") != null && s.getAttribute("nonTested") == null) {%>
+                    <%System.out.println("Paso por el habilitarPagar");%>
                     <tr>
                         <td></td>
                         <td></td>
@@ -205,44 +206,8 @@
                 </table>
             </div>
             <%if (s.getAttribute("habilitarPagar") == null) {%>
+            <%System.out.println("El habilitar Pagar el null por lo que muestra formulario de envio");%>
             <div class="container" style="width: 70%">
-                <!--<div class="d-flex justify-content-center">
-                <div class="user_card">
-                    
-                                <form action="/tienda/validarDatos.do">
-                                    <center><div class="h3 mb-0 text-gray-800">Valide sus datos antes de pagar.</div></center>
-                                        <div class="input-group mb-3"> </div>
-                                        <div class="input-group mb-3"> </div>
-                                        <div class="input-group mb-3">
-                                                <input type="text" name="nombres" class="form-control input_user" value="" placeholder="Nombres" required>
-                                        </div>
-                                        <div class="input-group mb-3">
-                                                <input type="text" name="apellidos" class="form-control input_user" value="" placeholder="Apellidos">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <input type="text" name="direccion" class="form-control input_pass" value="" placeholder="Direccion">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                                <input type="text" name="Ciudad" class="form-control input_pass" value="" placeholder="Ciudad">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                                <input type="text" name="localidad" class="form-control input_pass" value="" placeholder="Estado, provincia o región">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                                <input type="text" name="codigo_postal" class="form-control input_pass" value="" placeholder="Codigo postal">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                                <input type="text" name="correo" class="form-control input_pass" value="" placeholder="Correo electrónico">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                                <input type="text" name="telefono" class="form-control input_pass" value="" placeholder="Numero de telefono">
-                                        </div>
-                                        <div class="d-flex justify-content-center mt-3 login_container">
-                                            <input type="submit" class="btn login_btn" value="Listo">
-                                        </div>
-                                </form>
-                </div>-->
-
                 <!-- Extended material form grid -->
                 <form class="needs-validation" action="/tienda/validarDatos.do" novalidate>
                     <div class="form-row">
@@ -346,54 +311,145 @@
                 <!--</div>-->
             </div>
             <%} else if (s.getAttribute("nonTested") != null) {%>
+            <%System.out.println("El HabilitarPagar no es nulo, pero el nonTested si lo es, por lo que se habilita la eleccion");%>
             <!-- View Pago Section -->
+            <% if (s.getAttribute("medioPago") == null) {%>
+            <%System.out.println("El medioPago tambien es nulo por lo que se habilita eleccion");%>
             <div class="container">
                 <div class="d-flex justify-content-center">
                     <div class="user_card">
                         <center><div class="h3 mb-0 text-gray-800">Medio de Pagos.</div></center>
-                            <% if (s.getAttribute("medioPago") == null) {%>
+
                         <div class="d-flex justify-content-center">
                             <input type="radio" name="medioPago" onclick="javascript:window.location.href = '/tienda/pagar.do?medioPago=tarjeta'; return false;" value="tarjeta"> Tarjeta<br>
                             <input type="radio" name="medioPago" onclick="javascript:window.location.href = '/tienda/pagar.do?medioPago=paypal'; return false;" value="paypal"> Paypal<br>
                         </div>
-                        <%} else {%>
-                        <form action="/tienda/pagar.do">
-                            <% if (((String) s.getAttribute("medioPago")).equalsIgnoreCase("paypal")) {%>
-                            <div class="input-group mb-6">
-                                <input type="text" name="nombresMedio" class="form-control input_user" value="" placeholder="Nombres" required>
-                            </div>
-                            <div class="input-group mb-6">
-                                <input type="text" name="apellidosMedio" class="form-control input_user" value="" placeholder="Apellidos" required>
-                            </div>
-                            <div class="input-group mb-6">
-                                <input type="email" name="emailMedio" class="form-control input_user" value="" placeholder="Email" required>
-                            </div>
-                            <div class="d-flex justify-content-center mt-3 login_container">
-                                <input type="submit" name="pago" class="btn login_btn" value="pagar">
-                            </div>
-                            <%} else {%>
-                            <div class="input-group mb-6">
-                                <input type="text" name="nombresMedio" class="form-control input_user" value="" placeholder="Nombres" required>
-                            </div>
-                            <div class="input-group mb-6">
-                                <input type="text" name="apellidosMedio" class="form-control input_user" value="" placeholder="Apellidos" required>
-                            </div>
-                            <div class="input-group mb-6">
-                                <input type="text" name="tarjetaMedio" class="form-control input_user" value="" placeholder="Tarjeta" required>
-                            </div>
-                            <div class="d-flex justify-content-center mt-3 login_container">
-                                <input type="submit" name="pago" class="btn login_btn" value="Pagar">
-                            </div>
-                            <div class="d-flex justify-content-center mt-3 login_container">
-                                <input type="button" name="select" class="btn login_btn" value="Cambiar Medio" onclick="javascript:window.location.href = '/tienda/pagar.do?select=si';
-                                        return false;">
-                            </div>
-                            <%}%>
-                        </form>
-                        <%}%>
                     </div>
                 </div>
             </div>
+            <%} else {%>
+            <% if (((String) s.getAttribute("medioPago")).equalsIgnoreCase("paypal")) {%>
+            <%System.out.println("El mdeio de pago es paypal");%>
+            <!--Interfaz de pago por paypal-->
+            <div class="container" style="width: 30%" class="border border-secondary">
+                <div class="card">
+                    <article class="card-body">
+                        <h4 class="card-title mb-4 mt-1">Pago por PayPal</h4>
+                        <form>
+                            <div class="form-group">
+                                <label>Ingrese su correo</label>
+                                <input name="" class="form-control" placeholder="Email" type="email">
+                            </div> <!-- form-group// -->
+                            <div class="form-group">
+                                <label>Ingrese su contraseña</label>
+                                <input class="form-control" placeholder="******" type="password">
+                            </div> <!-- form-group// --> 
+                            <div class="form-group"> 
+                                <div class="checkbox">
+                                    <label> <input type="checkbox"> Guardar contraseña </label>
+                                </div> <!-- checkbox .// -->
+                            </div> <!-- form-group// -->  
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block"> Ingresar  </button>
+                            </div> <!-- form-group// -->                                                           
+                        </form>
+                    </article>
+                </div> <!-- card.// --> 
+            </div>
+
+            <%} else {%>
+            <div class="container" style="width: 40%" class="border border-secondary">
+                <%System.out.println("El mdeio de pago es tarjeta");%>
+                <form>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-2 pt-0">Tipo de Tarjeta</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="visa">
+                                    <label class="form-check-label" for="gridRadios1">
+                                        Visa
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="mastercard">
+                                    <label class="form-check-label" for="gridRadios2">
+                                        MasterCard
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="dinners">
+                                    <label class="form-check-label" for="gridRadios3">
+                                        Dinners
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group row">
+                        <label for="inputNroTarjeta" class="col-sm-2 col-form-label">Numero de Tarjeta</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputEmail3" placeholder="Numero de Tarjeta">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="expiration-date">
+                        <label style="margin: 2.5%">Fecha de Vencimiento</label>
+                        <select style="margin: 2.5%">
+                            <option value="01">Enero</option>
+                            <option value="02">Febrero </option>
+                            <option value="03">Marzo</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Mayo</option>
+                            <option value="06">Junio</option>
+                            <option value="07">Julio</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Deciembre</option>
+                        </select>
+                        <select style="margin: 2.5%">
+                            <option value="16"> 2016</option>
+                            <option value="17"> 2017</option>
+                            <option value="18"> 2018</option>
+                            <option value="19"> 2019</option>
+                            <option value="20"> 2020</option>
+                            <option value="21"> 2021</option>
+                            <option value="16"> 2022</option>
+                            <option value="17"> 2023</option>
+                            <option value="18"> 2024</option>
+                            <option value="19"> 2025</option>
+                            <option value="20"> 2026</option>
+                            <option value="21"> 2027</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputCVV" class="col-sm-2 col-form-label">CVV</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputCVV" placeholder="CVV">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Realizar Pago</button>
+                            <button type="submit" class="btn btn-primary">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <%}%>
+            <%}%>
+
+
+
+
+
+
             <%}%>
             <% } else { %>
             <!-- Mensaje Carrito vacio -->

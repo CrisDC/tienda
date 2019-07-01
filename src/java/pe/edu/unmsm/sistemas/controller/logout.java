@@ -6,11 +6,14 @@
 package pe.edu.unmsm.sistemas.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import pe.edu.unmsm.sistemas.util.Carrito;
+import pe.edu.unmsm.sistemas.model.Item;
 import pe.edu.unmsm.sistemas.model.Usuario;
 
 /**
@@ -30,6 +33,7 @@ public class logout extends HttpServlet {
             s.setAttribute("nonTested",null);
             s.setAttribute("medioPago",null);
             s.setAttribute("habilitarPagar",null);
+            s.setAttribute("carrito",null);
         response.sendRedirect(request.getContextPath()+"/index.jsp");
     }
 

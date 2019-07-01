@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import pe.edu.unmsm.sistemas.model.CredencialesPaypal;
+import pe.edu.unmsm.sistemas.model.Tarjeta;
+import pe.edu.unmsm.sistemas.service.IPagoService;
+import pe.edu.unmsm.sistemas.service.impl.PagoPaypalService;
+import pe.edu.unmsm.sistemas.service.impl.PagoTarjetaService;
 
 /**
  *
@@ -57,6 +62,7 @@ public class pagar extends HttpServlet {
             s.setAttribute("nonTested", null);
             s.setAttribute("medioPago", null);
             s.setAttribute("habilitarPagar", null);
+            s.setAttribute("carrito",null);
         }
         if (select != null) {
             s.setAttribute("select", null);
@@ -66,10 +72,23 @@ public class pagar extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/index.jsp#carrito");
         } else {
             if (pago == null) {
-                System.out.println("pago: " + pago);
                 response.sendRedirect(request.getContextPath() + "/index.jsp#carrito");
             }
         }
+        
+        /*IPagoService pagoService;
+        boolean pagoEfectuado = false;
+        if(medioPago == "tarjeta"){
+            Tarjeta tarjeta = new Tarjeta();
+            //seteamos atributos con data que llega del jsp
+            pagoService = new PagoTarjetaService(tarjeta);
+            pagoEfectuado = pagoService.pagar(motoRecibido);
+       } else if (medioPago == "PayPal"){
+           CredencialesPaypal credencialesPaypal = new CredencialesPaypal();
+           //seteamos atributos con data que llega al jsp
+           pagoService = new PagoPaypalService(credencialesPaypal);
+           pagoEfectuado = pagoService.pagar(montoRecibido);
+      }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

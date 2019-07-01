@@ -18,28 +18,28 @@ import pe.edu.unmsm.sistemas.model.Usuario;
  * @author LaboratorioFISI
  */
 public class logear extends HttpServlet {
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession s = request.getSession(false);
-        Usuario usuario = (Usuario) s.getAttribute("usuario");
-        if (usuario == null) {
+        Usuario usuario =(Usuario)s.getAttribute("usuario");
+        if(usuario == null){
             System.out.println("Construye usuario");
             s.setAttribute("usuario", new Usuario());
-            usuario = (Usuario) s.getAttribute("usuario");
-        }
+            usuario =(Usuario)s.getAttribute("usuario");
+        }   
         usuario.setUsername(request.getParameter("user"));
         usuario.setPassword(request.getParameter("pass"));
-        if (usuario.getUsername().compareTo("vieri.garcia") == 0 && usuario.getPassword().compareTo("12345") == 0) {
+        if(usuario.getUsername().compareTo("vieri.garcia")==0&&usuario.getPassword().compareTo("12345")==0){
             usuario.setSesionActiva(true);
         }
         //ahora hacemos perdurar el carrito en la sesion
         s.setAttribute("usuario", usuario);
-        s.setAttribute("nonTested", null);
-        s.setAttribute("medioPago", null);
-        s.setAttribute("habilitarPagar", null);
+            s.setAttribute("nonTested",null);
+            s.setAttribute("medioPago",null);
+            s.setAttribute("habilitarPagar",null);
+            s.setAttribute("carrito",null);
         System.out.println(usuario);
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        response.sendRedirect(request.getContextPath()+"/index.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

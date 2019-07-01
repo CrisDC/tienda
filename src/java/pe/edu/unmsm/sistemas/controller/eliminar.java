@@ -11,23 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import pe.edu.unmsm.sistemas.IComando;
 import pe.edu.unmsm.sistemas.util.Carrito;
 import pe.edu.unmsm.sistemas.model.Item;
-import pe.edu.unmsm.sistemas.service.ICarritoService;
-import pe.edu.unmsm.sistemas.service.impl.CarritoService;
+import pe.edu.unmsm.sistemas.removeItemTo;
 
 /**
  *
  * @author LaboratorioFISI
  */
 public class eliminar extends HttpServlet {
-    
-    private ICarritoService carritoService;
-
-    public eliminar() {
-        this.carritoService = new CarritoService();
-    }
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession s = request.getSession(false);
@@ -41,9 +34,8 @@ public class eliminar extends HttpServlet {
         Item item = new Item();
         item.setiProduct_id(Integer.valueOf(request.getParameter("id")));
         //Eliminar el item del carrito 
-        this.carritoService.eliminarItem(carrito, item);
-//        IComando removeCommand = new removeItemTo (carrito,item);
-//        removeCommand.ejecutar();
+        IComando removeCommand = new removeItemTo (carrito,item);
+        removeCommand.ejecutar();
         //ahora hacemos perdurar el carrito en la sesion
         s.setAttribute("carrito", carrito);
         System.out.println(carrito.toString());
