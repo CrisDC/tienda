@@ -8,39 +8,48 @@ package pe.edu.unmsm.sistemas;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import pe.edu.unmsm.sistemas.util.Carrito;
-import pe.edu.unmsm.sistemas.model.Item;
 
 /**
  *
- * @author LaboratorioFISI
+ * @author Darkness
  */
-public class agregar extends HttpServlet {
+@WebServlet(name = "validarDatos", urlPatterns = {"/validarDatos.do"})
+public class validarDatos extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession s = request.getSession(false);
-        Carrito carrito =(Carrito)s.getAttribute("carrito");
-        if(carrito == null){
-            System.out.println("Construye carrito");
-            s.setAttribute("carrito", new Carrito());
-            carrito =(Carrito)s.getAttribute("carrito");
-        }   
-        // crear el item
-        Item item = new Item();
-        item.setiCantidad(1);
-        item.setiProduct_id(Integer.valueOf(request.getParameter("id")));
-        item.setiPrecio(Float.valueOf(request.getParameter("precio")));
-        //añadir el item al carrito 
-        IComando addComand = new addItemTo(carrito,item);
-        addComand.ejecutar();
-        //ahora hacemos perdurar el carrito en la sesion
-        s.setAttribute("carrito", carrito);
-        System.out.println(carrito.toString());
-        response.sendRedirect(request.getContextPath()+"/index.jsp#productos");
+        String nombres = (String) request.getParameter("nombres");
+        String apellidos = (String) request.getParameter("apellidos");
+        String direccion = (String) request.getParameter("direccion");
+        System.out.println("NAD : "+nombres+apellidos+direccion);
+        String cancelar = (String) request.getParameter("cancelar");
+        if(cancelar==null)
+            cancelar="no";
+        System.out.println("C : "+cancelar);
+        if (!cancelar.equalsIgnoreCase("si")) {
+            if (nombres != null) {
+                s.setAttribute("habilitarPagar", "Habilitado");
+            } 
+        } else {
+            s.setAttribute("habilitarPagar", null);
+        }
+        System.out.println((String)s.getAttribute("habilitarPagar"));
+        response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

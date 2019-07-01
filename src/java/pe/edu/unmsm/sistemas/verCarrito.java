@@ -25,7 +25,7 @@ public class verCarrito extends HttpServlet {
             throws ServletException, IOException {
         HttpSession s = request.getSession();
         Carrito carrito =(Carrito)s.getAttribute("carrito");
-         response.sendRedirect(request.getContextPath()+"/#carrito/index.jsp"); 
+         response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

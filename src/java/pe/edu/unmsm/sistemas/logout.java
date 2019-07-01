@@ -30,6 +30,9 @@ public class logout extends HttpServlet {
         }   
         //ahora hacemos perdurar el carrito en la sesion
         s.setAttribute("usuario", usuario);
+            s.setAttribute("nonTested",null);
+            s.setAttribute("medioPago",null);
+            s.setAttribute("habilitarPagar",null);
         response.sendRedirect(request.getContextPath()+"/index.jsp");
     }
 
@@ -73,3 +76,4 @@ public class logout extends HttpServlet {
     }// </editor-fold>
 
 }
+

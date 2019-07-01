@@ -192,8 +192,91 @@
                     <td>S/.<%=df.format(montoTotal)%></td>
                     <td></td>
                 </tr>
+                <%if(s.getAttribute("habilitarPagar")!=null&&s.getAttribute("nonTested")==null){%>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><a href="/tienda/pagar.do?modal=si" class="btn btn-primary a-btn-slide-text">Pagar</a</td>
+                    <td><a href="/tienda/validarDatos.do?cancelar=si" class="btn btn-danger a-btn-slide-text" >Cancelar</a></td>
+                    <td></td>
+                </tr>
+                <%}%>
             </table>
           </div>
+          <%if(s.getAttribute("habilitarPagar")==null){%>
+          <div class="container">
+		<div class="d-flex justify-content-center">
+			<div class="user_card">
+                            
+					<form action="/tienda/validarDatos.do">
+                                            <center><div class="h3 mb-0 text-gray-800">Valide sus datos antes de pagar.</div></center>
+                                                <div class="input-group mb-3"> </div>
+                                                <div class="input-group mb-3"> </div>
+						<div class="input-group mb-3">
+							<input type="text" name="nombres" class="form-control input_user" value="" placeholder="Nombres" required>
+						</div>
+                                                <div class="input-group mb-3">
+							<input type="text" name="apellidos" class="form-control input_user" value="" placeholder="Apellidos">
+						</div>
+						<div class="input-group mb-3">
+							<input type="text" name="direccion" class="form-control input_pass" value="" placeholder="Direccion">
+						</div>
+						<div class="d-flex justify-content-center mt-3 login_container">
+                                                    <input type="submit" class="btn login_btn" value="Validar">
+                                                </div>
+					</form>
+			</div>
+		</div>
+	  </div>
+          <%}else if(s.getAttribute("nonTested")!=null){%>
+                <!-- View Pago Section -->
+              <div class="container">
+                      <div class="d-flex justify-content-center">
+                              <div class="user_card">
+                                  <center><div class="h3 mb-0 text-gray-800">Medio de Pagos.</div></center>
+                                  <% if(s.getAttribute("medioPago")==null){%>
+                                  <div class="d-flex justify-content-center">
+                                  <input type="radio" name="medioPago" onclick="javascript:window.location.href='/tienda/pagar.do?medioPago=tarjeta'; return false;" value="tarjeta"> Tarjeta<br>
+                                  <input type="radio" name="medioPago" onclick="javascript:window.location.href='/tienda/pagar.do?medioPago=paypal'; return false;" value="paypal"> Paypal<br>
+                                  </div>
+                                  <%} else {%>
+                                              <form action="/tienda/pagar.do">
+                                                          <% if(((String)s.getAttribute("medioPago")).equalsIgnoreCase("paypal")){%>
+                                                          <div class="input-group mb-6">
+                                                              <input type="text" name="nombresMedio" class="form-control input_user" value="" placeholder="Nombres" required>
+                                                          </div>
+                                                          <div class="input-group mb-6">
+                                                              <input type="text" name="apellidosMedio" class="form-control input_user" value="" placeholder="Apellidos" required>
+                                                          </div>
+                                                          <div class="input-group mb-6">
+                                                              <input type="email" name="emailMedio" class="form-control input_user" value="" placeholder="Email" required>
+                                                          </div>
+                                                          <div class="d-flex justify-content-center mt-3 login_container">
+                                                              <input type="submit" name="pago" class="btn login_btn" value="pagar">
+                                                          </div>
+                                                          <%} else {%>
+                                                          <div class="input-group mb-6">
+                                                              <input type="text" name="nombresMedio" class="form-control input_user" value="" placeholder="Nombres" required>
+                                                          </div>
+                                                          <div class="input-group mb-6">
+                                                              <input type="text" name="apellidosMedio" class="form-control input_user" value="" placeholder="Apellidos" required>
+                                                          </div>
+                                                          <div class="input-group mb-6">
+                                                              <input type="text" name="tarjetaMedio" class="form-control input_user" value="" placeholder="Tarjeta" required>
+                                                          </div>
+                                                          <div class="d-flex justify-content-center mt-3 login_container">
+                                                              <input type="submit" name="pago" class="btn login_btn" value="Pagar">
+                                                          </div>
+                                                          <div class="d-flex justify-content-center mt-3 login_container">
+                                                              <input type="button" name="select" class="btn login_btn" value="Cambiar Medio" onclick="javascript:window.location.href='/tienda/pagar.do?select=si'; return false;">
+                                                          </div>
+                                                          <%}%>
+                                              </form>
+                                  <%}%>
+                              </div>
+                      </div>
+                </div>
+          <%}%>
           <% } else{ %>
           <!-- Mensaje Carrito vacio -->
           <div class="page-section bg-primary text-white mb-0">
