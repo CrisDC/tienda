@@ -57,6 +57,7 @@ public class pagar extends HttpServlet {
             s.setAttribute("medioPago", medioPago);
         }
         if (pago != null) {
+            IPagoService pagoService;
             System.out.println("El pago fue distinto de null");
             //verificar el medio de pago. Usaer variable "medioPago" -> tarjeta y paypal
             if(medioPago.compareToIgnoreCase("tarjeta")==0){
@@ -75,9 +76,9 @@ public class pagar extends HttpServlet {
                 tarjeta.setNumeroTarjeta(numeroTarjeta);
                 tarjeta.setMembresia(membresia);
                 tarjeta.setFechaExpiracion(mesVencimiento+"/"+anioVencimiento);
-                tarjeta.setCvv(Integer.parseInt(CVV));
-                PagoTarjetaService pagoTarjetaService = new PagoTarjetaService(tarjeta);
-                pagoTarjetaService.pagar((Double)s.getAttribute("monto"));
+                tarjeta.setCvv(CVV != null ? Integer.parseInt(CVV) : 0);
+                pagoService = new PagoTarjetaService(tarjeta);
+                pagoService.pagar((Double)s.getAttribute("monto"));
                 
                 
             } else if(medioPago.compareToIgnoreCase("paypal")==0){
@@ -88,8 +89,8 @@ public class pagar extends HttpServlet {
                 credencialesPaypal.setEmail(correo);
                 credencialesPaypal.setNombreUsuario((String)s.getAttribute("usuario"));
                 credencialesPaypal.setPass(contrasenia);
-                PagoPaypalService pagoPaypalService = new PagoPaypalService(credencialesPaypal);
-                pagoPaypalService.pagar((Double)s.getAttribute("monto"));
+                pagoService = new PagoPaypalService(credencialesPaypal);
+                pagoService.pagar((Double)s.getAttribute("monto"));
             }
             //
             
