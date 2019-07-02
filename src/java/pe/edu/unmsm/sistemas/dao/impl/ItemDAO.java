@@ -99,5 +99,28 @@ public class ItemDAO implements IItemDAO {
         }
         return item;
     }
+     @Override
+     public List<Item> buscarDisponibles() {
+        List<Item> items = null;
+        try {
+            this.ps = this.connection.prepareStatement("SELECT * FROM PRODUCT WHERE QUANTITY_ON_HAND > 0");
+            
+            this.rs = ps.executeQuery();
+            items = new ArrayList<>();
+            Item item;
+            while (rs.next()) {                
+                item = new Item();
+                item.setiProduct_id(rs.getInt("PRODUCT_ID"));
+                item.setProductCode(rs.getString("PRODUCT_CODE"));
+                item.setiCantidad(rs.getInt("QUANTITY_ON_HAND"));
+                item.setiPrecio(rs.getFloat("PURCHASE_COST"));
+                item.setDescripcion(rs.getString("DESCRIPTION"));
+                items.add(item);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return items;
+    }
     
 }

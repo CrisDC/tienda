@@ -5,6 +5,7 @@
  */
 package pe.edu.unmsm.sistemas.dao;
 
+import java.util.List;
 import pe.edu.unmsm.sistemas.model.Item;
 
 /**
@@ -12,5 +13,5 @@ import pe.edu.unmsm.sistemas.model.Item;
  * @author Cristhian
  */
 public interface IItemDAO extends IMantenibleDAO<Item> {
-    
+    public List<Item> buscarDisponibles() ;
 }

@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="pe.edu.unmsm.sistemas.dao.impl.ItemDAO"%>
 <%@page import="pe.edu.unmsm.sistemas.dao.IItemDAO"%>
 <%@page import="java.util.List"%>
@@ -15,14 +16,18 @@
 
 <%
     Conexion con = Conexion.getConexion(ParametrosSistema.DRIVER, ParametrosSistema.URL, ParametrosSistema.CONECTION_USER, ParametrosSistema.CONECTION_PASS);
-    //Consulta para obtener los productos
-//    String sql="SELECT * FROM APP.PRODUCT FETCH FIRST 10 ROWS ONLY";
-//    ResultSet res= con.ejecutarQuery(sql);
+    //obtención de productos y validacion de que haya stock
     IItemDAO itemDAO = new ItemDAO();
-    List<Item> items = itemDAO.buscarTodos();
+    List<Item> resultItemDAO = itemDAO.buscarTodos();
+    List<Item> items = new ArrayList<Item> ();
+    for(Item i:resultItemDAO){
+        if(i.getiCantidad()>0){
+            items.add(i);
+        }
+    }
+    //Obtensión del usuario de la Session
     HttpSession s = request.getSession(false);
     Usuario usuario = (Usuario) s.getAttribute("usuario");
-    
     System.out.println("usuario:" + usuario);
 %>
 <!DOCTYPE html>
@@ -43,7 +48,6 @@
         <link href="Recursos/css/freelancer.min.css" rel="stylesheet">
 
     </head>
-    <!--<a href="/tienda/verCarrito.do?">Ver carrito</a>-->
     <body id="page-top">
         <!-- Barra de Navegación  -->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
