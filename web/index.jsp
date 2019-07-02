@@ -347,7 +347,9 @@
                                             </div> 
                                         </div>  
                                         <div class="form-group">
-                                            <button type="submit"  class="btn btn-primary btn-block"> Ingresar  </button>
+                                            <button
+                                                onclick="javascript:window.location.href = '/tienda/pagar.do?pago=si&medioPago=paypal&tipoTarjeta=debito' ; return false;"
+                                                type="submit"  class="btn btn-primary btn-block"> Ingresar  </button>
                                             <button onclick="javascript:window.location.href = '/tienda/pagar.do?select=si'; return false;" class="btn btn-primary btn-block"> Volver  </button>
                                         </div>                                                        
                                     </form>
@@ -447,7 +449,9 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Realizar Pago</button>
+                                        <button
+                                            onclick="javascript:window.location.href = '/tienda/pagar.do?pago=si&medioPago=tarjeta&tipoTarjeta=debito'; return false;"
+                                            type="submit" class="btn btn-primary">Realizar Pago</button>
                                         <button  onclick="javascript:window.location.href = '/tienda/pagar.do?select=si'; return false;" class="btn btn-primary">Volver</button>
                                     </div>
                                 </div>
