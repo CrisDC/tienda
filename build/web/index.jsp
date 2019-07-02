@@ -22,6 +22,7 @@
     List<Item> items = itemDAO.buscarTodos();
     HttpSession s = request.getSession(false);
     Usuario usuario = (Usuario) s.getAttribute("usuario");
+    
     System.out.println("usuario:" + usuario);
 %>
 <!DOCTYPE html>
@@ -140,7 +141,6 @@
                         <%if (usuario != null && usuario.getSesionActiva()) {%>
                         <td ><a href="/tienda/agregar.do?<%=id + "&" + cantidad + "&" + precio%>"><img src="Recursos/img/buttons/addShopcar.svg" alt="" width="10%" height="10%"/></a></td>
                                 <% } %>
-                        <!--<td><button id="newButton" onclick="dd(this);">Click</button></td>-->
                     </tr>
                     <% } %>
                 </table>
@@ -150,8 +150,8 @@
 
         <!-- Carrito Section -->
         <section class="page-section portfolio" id="carrito">
-            <% Carrito carrito = (Carrito) s.getAttribute("carrito");
-                if (carrito != null && carrito.getCarrito().size() > 0) {%>
+        <% Carrito carrito = (Carrito) s.getAttribute("carrito");
+        if (carrito != null && carrito.getCarrito().size() > 0) {%>
             <div class="container">
                 <br>
                 <!-- Portfolio Section Heading -->
@@ -185,7 +185,9 @@
                         <td ><a href="/tienda/eliminar.do?id=<%=i.getiProduct_id()%>">Quitar</a></td>
                     </tr>
                     <%  montoTotal = montoTotal + i.getiPrecio() * i.getiCantidad();
+                        
                         }%>
+                    <%s.setAttribute("monto",montoTotal);%>
                     <tr>
                         <td></td>
                         <td></td>
@@ -194,7 +196,6 @@
                         <td></td>
                     </tr>
                     <%if (s.getAttribute("habilitarPagar") != null && s.getAttribute("nonTested") == null) {%>
-                    <%System.out.println("Paso por el habilitarPagar");%>
                     <tr>
                         <td></td>
                         <td></td>
@@ -206,253 +207,258 @@
                 </table>
             </div>
             <%if (s.getAttribute("habilitarPagar") == null) {%>
-            <%System.out.println("El habilitar Pagar el null por lo que muestra formulario de envio");%>
-            <div class="container" style="width: 70%">
-                <!-- Extended material form grid -->
-                <form class="needs-validation" action="/tienda/validarDatos.do" novalidate>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <label for="inputNombre">Nombre</label>
-                            <input type="text" class="form-control" name ="nombres" id="inputNombre" placeholder="Nombre" required>
-                            <div class="valid-feedback">
-                                Se ve bien!
+            <!-----------------------INTERFAZ DE ENVIO-------------------------------->
+                <div class="container" style="width: 70%">
+                    <!-- Extended material form grid -->
+                    <form class="needs-validation" action="/tienda/validarDatos.do" novalidate>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="inputNombre">Nombre</label>
+                                <input type="text" class="form-control" name ="nombres" id="inputNombre" placeholder="Nombre" required>
+                                <div class="valid-feedback">
+                                    Se ve bien!
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="inputApellido">Apellido</label>
+                                <input type="text" class="form-control" name="apellidos" id="inputApellido" placeholder="Apellido" required>
+                                <div class="valid-feedback">
+                                    Se ve bien!
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="inputApellido">Apellido</label>
-                            <input type="text" class="form-control" name="apellidos" id="inputApellido" placeholder="Apellido" required>
-                            <div class="valid-feedback">
-                                Se ve bien!
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="inputDireccion">Direccion</label>
+                                <input type="text" class="form-control" name="direccion" id="inputDireccion" placeholder="Direccion" required>
+                                <div class="valid-feedback">
+                                    Se ve bien!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor ingrese una Direccion
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-12 mb-3">
-                            <label for="inputDireccion">Direccion</label>
-                            <input type="text" class="form-control" name="direccion" id="inputDireccion" placeholder="Direccion" required>
-                            <div class="valid-feedback">
-                                Se ve bien!
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="inputCiudad">Ciudad</label>
+                                <input type="text" class="form-control" name="ciudad" id="inputCiudad" placeholder="Ciudad" required>
+                                <div class="invalid-feedback">
+                                    Por favor ingrese una ciudad de destino
+                                </div>
                             </div>
-                            <div class="invalid-feedback">
-                                Por favor ingrese una Direccion
+                            <div class="col-md-3 mb-3">
+                                <label for="inputDepartamento">Departamento</label>
+                                <input type="text" class="form-control" name="departamento" id="inputDepartamento" placeholder="Departamento" required>
+                                <div class="invalid-feedback">
+                                    Por favor ingrese un Departamento
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <label for="inputCiudad">Ciudad</label>
-                            <input type="text" class="form-control" name="" id="inputCiudad" placeholder="Ciudad" required>
-                            <div class="invalid-feedback">
-                                Por favor ingrese una ciudad de destino
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="inputDepartamento">Departamento</label>
-                            <input type="text" class="form-control" id="inputDepartamento" placeholder="Departamento" required>
-                            <div class="invalid-feedback">
-                                Por favor ingrese un Departamento
+                            <div class="col-md-3 mb-3">
+                                <label for="inputZip">Zip</label>
+                                <input type="text" class="form-control" name="zip" id="inputZip" placeholder="Zip" required>
+                                <div class="invalid-feedback">
+                                    Por favor ingrese un zip valido
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="inputZip">Zip</label>
-                            <input type="text" class="form-control" id="inputZip" placeholder="Zip" required>
-                            <div class="invalid-feedback">
-                                Por favor ingrese un zip valido
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="inputCorreo">Correo Electronico</label>
+                                <input type="email" class="form-control" name="correoelectronico" id="inputCorreo" placeholder="Correo Electronio" required>
+                                <div class="invalid-feedback">
+                                    Por favor ingrese un correo electronico
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="inputCorreoConf">Confirme Correo Electronico</label>
+                                <input type="email" class="form-control" name="correoelectronicoconf" id="inputCorreoConf" placeholder="Confirme Correo Electronio" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <label for="inputCorreo">Correo Electronico</label>
-                            <input type="email" class="form-control" id="inputCorreo" placeholder="Correo Electronio" required>
-                            <div class="invalid-feedback">
-                                Por favor ingrese un correo electronico
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                <label class="form-check-label" for="invalidCheck">
+                                    Estoy de acuerdo con los terminos y condiciones
+                                </label>
+                                <div class="invalid-feedback">
+                                    Debe de estar de acuerdo antes de continuar
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="inputCorreoConf">Confirme Correo Electronico</label>
-                            <input type="email" class="form-control" id="inputCorreoConf" placeholder="Confirme Correo Electronio" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                            <label class="form-check-label" for="invalidCheck">
-                                Estoy de acuerdo con los terminos y condiciones
-                            </label>
-                            <div class="invalid-feedback">
-                                Debe de estar de acuerdo antes de continuar
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Listo</button>
-                </form>
+                        <button class="btn btn-primary" type="submit">Listo</button>
+                    </form>
 
-                <script>
-                    // Example starter JavaScript for disabling form submissions if there are invalid fields
-                    (function () {
-                        'use strict';
-                        window.addEventListener('load', function () {
-                            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                            var forms = document.getElementsByClassName('needs-validation');
-                            // Loop over them and prevent submission
-                            var validation = Array.prototype.filter.call(forms, function (form) {
-                                form.addEventListener('submit', function (event) {
-                                    if (form.checkValidity() === false) {
-                                        event.preventDefault();
-                                        event.stopPropagation();
-                                    }
-                                    form.classList.add('was-validated');
-                                }, false);
-                            });
-                        }, false);
-                    })();
-                </script>
-                <!--</div>-->
-            </div>
+                    <script>
+                        (function () {
+                            'use strict';
+                            window.addEventListener('load', function () {
+                                var forms = document.getElementsByClassName('needs-validation');
+                                var validation = Array.prototype.filter.call(forms, function (form) {
+                                    form.addEventListener('submit', function (event) {
+                                        if (form.checkValidity() === false) {
+                                            event.preventDefault();
+                                            event.stopPropagation();
+                                        }
+                                        form.classList.add('was-validated');
+                                    }, false);
+                                });
+                            }, false);
+                        })();
+                    </script>
+                </div>
+            <!-----------------FIN DE LA SECCION DE ENVIO------------------->
             <%} else if (s.getAttribute("nonTested") != null) {%>
-            <%System.out.println("El HabilitarPagar no es nulo, pero el nonTested si lo es, por lo que se habilita la eleccion");%>
             <!-- View Pago Section -->
-            <% if (s.getAttribute("medioPago") == null) {%>
-            <%System.out.println("El medioPago tambien es nulo por lo que se habilita eleccion");%>
-            <div class="container">
-                <div class="d-flex justify-content-center">
-                    <div class="user_card">
-                        <center><div class="h3 mb-0 text-gray-800">Medio de Pagos.</div></center>
+                <% if (s.getAttribute("medioPago") == null) {%>
+                <!--------------------INTERFAZ PARA LA SELECCIÓN DE MEDIO DE PAGO---------------------->
+                <div class="container">
+                    <div class="d-flex justify-content-center">
+                        <div class="user_card">
+                            <center><div class="h3 mb-0 text-gray-800">Medio de Pagos.</div></center>
 
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="medioPago" onclick="javascript:window.location.href = '/tienda/pagar.do?medioPago=tarjeta'; return false;" value="tarjeta"> Tarjeta<br>
-                            <input type="radio" name="medioPago" onclick="javascript:window.location.href = '/tienda/pagar.do?medioPago=paypal'; return false;" value="paypal"> Paypal<br>
+                            <div class="d-flex justify-content-center">
+                                <input type="radio" name="medioPago" onclick="javascript:window.location.href = '/tienda/pagar.do?medioPago=tarjeta'; return false;" value="tarjeta"> Tarjeta<br>
+                                <input type="radio" name="medioPago" onclick="javascript:window.location.href = '/tienda/pagar.do?medioPago=paypal'; return false;" value="paypal"> Paypal<br>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <%} else {%>
-            <% if (((String) s.getAttribute("medioPago")).equalsIgnoreCase("paypal")) {%>
-            <%System.out.println("El mdeio de pago es paypal");%>
-            <!--Interfaz de pago por paypal-->
-            <div class="container" style="width: 30%" class="border border-secondary">
-                <div class="card">
-                    <article class="card-body">
-                        <h4 class="card-title mb-4 mt-1">Pago por PayPal</h4>
-                        <form>
-                            <div class="form-group">
-                                <label>Ingrese su correo</label>
-                                <input name="" class="form-control" placeholder="Email" type="email">
-                            </div> <!-- form-group// -->
-                            <div class="form-group">
-                                <label>Ingrese su contraseña</label>
-                                <input class="form-control" placeholder="******" type="password">
-                            </div> <!-- form-group// --> 
-                            <div class="form-group"> 
-                                <div class="checkbox">
-                                    <label> <input type="checkbox"> Guardar contraseña </label>
-                                </div> <!-- checkbox .// -->
-                            </div> <!-- form-group// -->  
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block"> Ingresar  </button>
-                            </div> <!-- form-group// -->                                                           
-                        </form>
-                    </article>
-                </div> <!-- card.// --> 
-            </div>
-
-            <%} else {%>
-            <div class="container" style="width: 40%" class="border border-secondary">
-                <%System.out.println("El mdeio de pago es tarjeta");%>
-                <form>
-                    <fieldset class="form-group">
-                        <div class="row">
-                            <legend class="col-form-label col-sm-2 pt-0">Tipo de Tarjeta</legend>
-                            <div class="col-sm-10">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="visa">
-                                    <label class="form-check-label" for="gridRadios1">
-                                        Visa
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="mastercard">
-                                    <label class="form-check-label" for="gridRadios2">
-                                        MasterCard
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="dinners">
-                                    <label class="form-check-label" for="gridRadios3">
-                                        Dinners
-                                    </label>
-                                </div>
+                <!---------------FIN DE LA INTERFAZ PARA LA SELECCIÓN DE MEDIO DE PAGO------------------>
+                <%} else {%>
+                    <% if (((String) s.getAttribute("medioPago")).equalsIgnoreCase("paypal")) {%>
+                    <!--------------------INTERFAZ PARA EL MEDIO DE PAGO DE PAYPAL---------------------->
+                        <div class="container" style="width: 30%" class="border border-secondary">
+                            <div class="card">
+                                <article class="card-body">
+                                    <h4 class="card-title mb-4 mt-1">Pago por PayPal</h4>
+                                    <form action="/tienda/pagar.do?pago=si">
+                                        <div class="form-group">
+                                            <label>Ingrese su correo</label>
+                                            <input name="correo" class="form-control" placeholder="Email" type="email">
+                                        </div> 
+                                        <div class="form-group">
+                                            <label>Ingrese su contraseña</label>
+                                            <input name="contrasenia" class="form-control" placeholder="******" type="password">
+                                        </div> 
+                                        <div class="form-group"> 
+                                            <div class="checkbox">
+                                                <label> <input type="checkbox"> Guardar contraseña </label>
+                                            </div> 
+                                        </div>  
+                                        <div class="form-group">
+                                            <button type="submit"  class="btn btn-primary btn-block"> Ingresar  </button>
+                                            <button onclick="javascript:window.location.href = '/tienda/pagar.do?select=si'; return false;" class="btn btn-primary btn-block"> Volver  </button>
+                                        </div>                                                        
+                                    </form>
+                                </article>
                             </div>
                         </div>
-                    </fieldset>
-                    <div class="form-group row">
-                        <label for="inputNroTarjeta" class="col-sm-2 col-form-label">Numero de Tarjeta</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputEmail3" placeholder="Numero de Tarjeta">
+                    <!--------------------FIN DE LA INTERFAZ DE MEDIO DE PAGO DE PAYPAL---------------------->
+                    <%} else {%>
+                    <!--------------------INTERFAZ PARA LA SELECCIÓN DE MEDIO DE TARJETA---------------------->
+                        <div class="container" style="width: 40%" class="border border-secondary">
+                            <%System.out.println("El mdeio de pago es tarjeta");%>
+                            <form action="/tienda/pagar.do?pago=si">
+                                <fieldset class="form-group">
+                                    <div class="row">
+                                        <legend class="col-form-label col-sm-2 pt-0">Membresia</legend>
+                                        <div class="col-sm-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="membresia" id="gridRadios1" value="visa">
+                                                <label class="form-check-label" for="gridRadios1">
+                                                    Visa
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="membresia" id="gridRadios2" value="mastercard">
+                                                <label class="form-check-label" for="gridRadios2">
+                                                    MasterCard
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="membresia" id="gridRadios3" value="dinners">
+                                                <label class="form-check-label" for="gridRadios3">
+                                                    Dinners
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <legend class="col-form-label col-sm-2 pt-0">Tipo de Tarjeta</legend>
+                                        <div class="col-sm-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipoTarjeta" id="debito" value="visa">
+                                                <label class="form-check-label" for="gridRadios1">
+                                                    Credito
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipoTarjeta" id="debito" value="mastercard">
+                                                <label class="form-check-label" for="debito">
+                                                    Debito
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="form-group row">
+                                    <label for="inputNroTarjeta" class="col-sm-2 col-form-label">Numero de Tarjeta</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name ="numeroTarjeta" class="form-control" id="inputEmail3" placeholder="Numero de Tarjeta">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="expiration-date">
+                                    <label style="margin: 2.5%">Fecha de Vencimiento</label>
+                                    <select style="margin: 2.5%" name = "mesVencimiento">
+                                        <option value="01">Enero</option>
+                                        <option value="02">Febrero </option>
+                                        <option value="03">Marzo</option>
+                                        <option value="04">Abril</option>
+                                        <option value="05">Mayo</option>
+                                        <option value="06">Junio</option>
+                                        <option value="07">Julio</option>
+                                        <option value="08">Agosto</option>
+                                        <option value="09">Septiembre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Deciembre</option>
+                                    </select>
+                                    <select style="margin: 2.5%" name = "anioVencimiento">
+                                        <option value="16"> 2016</option>
+                                        <option value="17"> 2017</option>
+                                        <option value="18"> 2018</option>
+                                        <option value="19"> 2019</option>
+                                        <option value="20"> 2020</option>
+                                        <option value="21"> 2021</option>
+                                        <option value="16"> 2022</option>
+                                        <option value="17"> 2023</option>
+                                        <option value="18"> 2024</option>
+                                        <option value="19"> 2025</option>
+                                        <option value="20"> 2026</option>
+                                        <option value="21"> 2027</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputCVV" class="col-sm-2 col-form-label">CVV</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name = "cvv" class="form-control" id="inputCVV" placeholder="CVV">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Realizar Pago</button>
+                                        <button  onclick="javascript:window.location.href = '/tienda/pagar.do?select=si'; return false;" class="btn btn-primary">Volver</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </div>
-
-                    <div class="form-group" id="expiration-date">
-                        <label style="margin: 2.5%">Fecha de Vencimiento</label>
-                        <select style="margin: 2.5%">
-                            <option value="01">Enero</option>
-                            <option value="02">Febrero </option>
-                            <option value="03">Marzo</option>
-                            <option value="04">Abril</option>
-                            <option value="05">Mayo</option>
-                            <option value="06">Junio</option>
-                            <option value="07">Julio</option>
-                            <option value="08">Agosto</option>
-                            <option value="09">Septiembre</option>
-                            <option value="10">Octubre</option>
-                            <option value="11">Noviembre</option>
-                            <option value="12">Deciembre</option>
-                        </select>
-                        <select style="margin: 2.5%">
-                            <option value="16"> 2016</option>
-                            <option value="17"> 2017</option>
-                            <option value="18"> 2018</option>
-                            <option value="19"> 2019</option>
-                            <option value="20"> 2020</option>
-                            <option value="21"> 2021</option>
-                            <option value="16"> 2022</option>
-                            <option value="17"> 2023</option>
-                            <option value="18"> 2024</option>
-                            <option value="19"> 2025</option>
-                            <option value="20"> 2026</option>
-                            <option value="21"> 2027</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="inputCVV" class="col-sm-2 col-form-label">CVV</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputCVV" placeholder="CVV">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Realizar Pago</button>
-                            <button type="submit" class="btn btn-primary">Cancelar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-
-
+                    <!--------------------FIN DE LA INTERFAZ PARA LA SELECCIÓN DE MEDIO DE PAGO----------------->
+                    <%}%>
+                <%}%>
             <%}%>
-            <%}%>
-
-
-
-
-
-
-            <%}%>
-            <% } else { %>
-            <!-- Mensaje Carrito vacio -->
+        <% } else { %>
+        <!-- INTERFAZ DE MENSAJE DE CARRITO VACIO -->
             <div class="page-section bg-primary text-white mb-0">
                 <div class="container " >
                     <h2 class="page-section-heading text-center text-uppercase text-white">Carrito Vacio!!</h2>
@@ -474,7 +480,8 @@
                     </div>
                 </div>
             </div>
-            <% }%>
+        <!-- FIN DE LA INTERFAZ DE MENSAJE DE CARRITO VACIO -->
+        <% }%>
         </section>
 
         <link href="Recursos/css/login.css" rel="stylesheet" type="text/css"/>

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import pe.edu.unmsm.sistemas.model.CredencialesPaypal;
 import pe.edu.unmsm.sistemas.model.Tarjeta;
+import pe.edu.unmsm.sistemas.model.TarjetaCredito;
 import pe.edu.unmsm.sistemas.service.IPagoService;
 import pe.edu.unmsm.sistemas.service.impl.PagoPaypalService;
 import pe.edu.unmsm.sistemas.service.impl.PagoTarjetaService;
@@ -45,6 +46,8 @@ public class pagar extends HttpServlet {
         String medioPago = (String) request.getParameter("medioPago");
         String pago = (String) request.getParameter("pago");
         String select = (String) request.getParameter("select");
+        System.out.println("ESTOY EN LA CLASE PAGAR");
+        System.out.println("Esto me llego en pago: " + pago);
         //do Something
         if (habilitar != null) {
             s.setAttribute("nonTested", "habilitado");
@@ -54,6 +57,43 @@ public class pagar extends HttpServlet {
             s.setAttribute("medioPago", medioPago);
         }
         if (pago != null) {
+            System.out.println("El pago fue distinto de null");
+            //verificar el medio de pago. Usaer variable "medioPago" -> tarjeta y paypal
+            if(medioPago.compareToIgnoreCase("tarjeta")==0){
+                System.out.println("Entro a pago por tarjeta");
+                String membresia = (String) request.getParameter("membresia");
+                String numeroTarjeta = (String) request.getParameter("numeroTarjeta");
+                String mesVencimiento = (String) request.getParameter("mesVencimiento");
+                String anioVencimiento = (String) request.getParameter("anioVencimiento");
+                String CVV = (String) request.getParameter("cvv");
+                String tipoTarjeta = (String) request.getParameter("tipoTarjeta");
+                Tarjeta tarjeta = null;
+                if(tipoTarjeta.equals("credito"))
+                    tarjeta = new TarjetaCredito();
+                else if(tipoTarjeta.equals("debito"))
+                    tarjeta = new Tarjeta();
+                tarjeta.setNumeroTarjeta(numeroTarjeta);
+                tarjeta.setMembresia(membresia);
+                tarjeta.setFechaExpiracion(mesVencimiento+"/"+anioVencimiento);
+                tarjeta.setCvv(Integer.parseInt(CVV));
+                PagoTarjetaService pagoTarjetaService = new PagoTarjetaService(tarjeta);
+                pagoTarjetaService.pagar((Double)s.getAttribute("monto"));
+                
+                
+            } else if(medioPago.compareToIgnoreCase("paypal")==0){
+                System.out.println("Entro a pago por paypal");
+                String correo = (String) request.getParameter("correo");
+                String contrasenia = (String) request.getParameter("contrasenia");
+                CredencialesPaypal credencialesPaypal = new CredencialesPaypal();
+                credencialesPaypal.setEmail(correo);
+                credencialesPaypal.setNombreUsuario((String)s.getAttribute("usuario"));
+                credencialesPaypal.setPass(contrasenia);
+                PagoPaypalService pagoPaypalService = new PagoPaypalService(credencialesPaypal);
+                pagoPaypalService.pagar((Double)s.getAttribute("monto"));
+            }
+            //
+            
+            
             PrintWriter out = response.getWriter();
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Pago correcto, pulse aceptar para continuar.');");
@@ -75,20 +115,6 @@ public class pagar extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/index.jsp#carrito");
             }
         }
-        
-        /*IPagoService pagoService;
-        boolean pagoEfectuado = false;
-        if(medioPago == "tarjeta"){
-            Tarjeta tarjeta = new Tarjeta();
-            //seteamos atributos con data que llega del jsp
-            pagoService = new PagoTarjetaService(tarjeta);
-            pagoEfectuado = pagoService.pagar(motoRecibido);
-       } else if (medioPago == "PayPal"){
-           CredencialesPaypal credencialesPaypal = new CredencialesPaypal();
-           //seteamos atributos con data que llega al jsp
-           pagoService = new PagoPaypalService(credencialesPaypal);
-           pagoEfectuado = pagoService.pagar(montoRecibido);
-      }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

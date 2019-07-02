@@ -12,10 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import pe.edu.unmsm.sistemas.IComando;
-import pe.edu.unmsm.sistemas.addItemTo;
+import pe.edu.unmsm.sistemas.service.impl.addItemTo;
 import pe.edu.unmsm.sistemas.util.Carrito;
 import pe.edu.unmsm.sistemas.model.Item;
+import pe.edu.unmsm.sistemas.service.ICarritoService;
+import pe.edu.unmsm.sistemas.service.impl.CarritoService;
+import pe.edu.unmsm.sistemas.service.IComando;
 
 /**
  *
@@ -37,8 +39,8 @@ public class agregar extends HttpServlet {
         item.setiProduct_id(Integer.valueOf(request.getParameter("id")));
         item.setiPrecio(Float.valueOf(request.getParameter("precio")));
         //añadir el item al carrito 
-        IComando addComand = new addItemTo(carrito,item);
-        addComand.ejecutar();
+        ICarritoService carritoService=  new CarritoService();
+        carritoService.agregarItems(carrito, item);
         //ahora hacemos perdurar el carrito en la sesion
         s.setAttribute("carrito", carrito);
         System.out.println(carrito.toString());

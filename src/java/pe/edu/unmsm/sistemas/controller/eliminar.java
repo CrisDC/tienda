@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import pe.edu.unmsm.sistemas.IComando;
 import pe.edu.unmsm.sistemas.util.Carrito;
 import pe.edu.unmsm.sistemas.model.Item;
-import pe.edu.unmsm.sistemas.removeItemTo;
+import pe.edu.unmsm.sistemas.service.ICarritoService;
+import pe.edu.unmsm.sistemas.service.impl.removeItemTo;
+import pe.edu.unmsm.sistemas.service.impl.CarritoService;
+import pe.edu.unmsm.sistemas.service.IComando;
 
 /**
  *
@@ -34,8 +36,8 @@ public class eliminar extends HttpServlet {
         Item item = new Item();
         item.setiProduct_id(Integer.valueOf(request.getParameter("id")));
         //Eliminar el item del carrito 
-        IComando removeCommand = new removeItemTo (carrito,item);
-        removeCommand.ejecutar();
+        ICarritoService carritoService = new CarritoService();
+        carritoService.eliminarItem(carrito, item);
         //ahora hacemos perdurar el carrito en la sesion
         s.setAttribute("carrito", carrito);
         System.out.println(carrito.toString());

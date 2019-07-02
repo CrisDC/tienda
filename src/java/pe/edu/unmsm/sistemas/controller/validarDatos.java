@@ -36,23 +36,38 @@ public class validarDatos extends HttpServlet {
         String nombres = (String) request.getParameter("nombres");
         String apellidos = (String) request.getParameter("apellidos");
         String direccion = (String) request.getParameter("direccion");
-        System.out.println("NAD : "+nombres+apellidos+direccion);
+        String ciudad = (String) request.getParameter("ciudad");
+        String departamento = (String) request.getParameter("departamento");
+        String zip = (String) request.getParameter("zip");
+        String correoelect = (String) request.getParameter("correoelectronico");
+        String correoelectconf = (String) request.getParameter("correoelectronicoconf");
+        System.out.println("NAD : " + nombres + apellidos + direccion);
         String cancelar = (String) request.getParameter("cancelar");
-        if(cancelar==null)
-            cancelar="no";
-        System.out.println("C : "+cancelar);
+        if (cancelar == null) {
+            cancelar = "no";
+        }
+        System.out.println("C : " + cancelar);
         if (!cancelar.equalsIgnoreCase("si")) {
-            if (nombres != null) {
+            if (nombres != null && correoelect.equals(correoelectconf)) {
                 s.setAttribute("habilitarPagar", "Habilitado");
                 System.out.println("Paso por el habilitado");
-                      
-            } 
+
+            } else {
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('No esta correcto los correos electronicos proporcionados');");
+                out.println("location.href = \"index.jsp\";");
+                out.println("</script>");
+            }
         } else {
             s.setAttribute("habilitarPagar", null);
             System.out.println("Paso por el no habbilitado");
         }
-        System.out.println((String)s.getAttribute("habilitarPagar"));
-        response.sendRedirect(request.getContextPath()+"/index.jsp#carrito"); 
+        System.out.println((String) s.getAttribute("habilitarPagar"));
+        if(nombres != null && correoelect.equals(correoelectconf)){
+            response.sendRedirect(request.getContextPath() + "/index.jsp#carrito");
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
