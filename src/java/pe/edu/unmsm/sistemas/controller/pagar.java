@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pe.edu.unmsm.sistemas.controller;
 
 import java.io.IOException;
@@ -16,13 +12,17 @@ import javax.servlet.http.HttpSession;
 import pe.edu.unmsm.sistemas.model.CredencialesPaypal;
 import pe.edu.unmsm.sistemas.model.Tarjeta;
 import pe.edu.unmsm.sistemas.model.TarjetaCredito;
+import pe.edu.unmsm.sistemas.model.Usuario;
 import pe.edu.unmsm.sistemas.service.IPagoService;
 import pe.edu.unmsm.sistemas.service.impl.PagoPaypalService;
 import pe.edu.unmsm.sistemas.service.impl.PagoTarjetaService;
 
 /**
  *
- * @author Darkness
+ * @author Claudio Andree Ampuero Ramos
+ * @author Vieri Enrique Garcia Moreno
+ * @author Cristhian Richard Alvarez Caicedo
+ * @author Cristhian Waldir De La Cruz Sanchez
  */
 @WebServlet(name = "pagar", urlPatterns = {"/pagar.do"})
 public class pagar extends HttpServlet {
@@ -85,9 +85,10 @@ public class pagar extends HttpServlet {
                 System.out.println("Entro a pago por paypal");
                 String correo = (String) request.getParameter("correo");
                 String contrasenia = (String) request.getParameter("contrasenia");
+                Usuario usuario = (Usuario)s.getAttribute("usuario");
                 CredencialesPaypal credencialesPaypal = new CredencialesPaypal();
                 credencialesPaypal.setEmail(correo);
-                credencialesPaypal.setNombreUsuario((String)s.getAttribute("usuario"));
+                credencialesPaypal.setNombreUsuario(usuario.getUsername());
                 credencialesPaypal.setPass(contrasenia);
                 pagoService = new PagoPaypalService(credencialesPaypal);
                 pagoService.pagar((Double)s.getAttribute("monto"));

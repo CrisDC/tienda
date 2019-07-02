@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pe.edu.unmsm.sistemas.controller;
 
 import java.io.IOException;
@@ -14,13 +9,14 @@ import javax.servlet.http.HttpSession;
 import pe.edu.unmsm.sistemas.util.Carrito;
 import pe.edu.unmsm.sistemas.model.Item;
 import pe.edu.unmsm.sistemas.service.ICarritoService;
-import pe.edu.unmsm.sistemas.service.impl.removeItemTo;
 import pe.edu.unmsm.sistemas.service.impl.CarritoService;
-import pe.edu.unmsm.sistemas.service.IComando;
 
 /**
  *
- * @author LaboratorioFISI
+ * @author Claudio Andree Ampuero Ramos
+ * @author Vieri Enrique Garcia Moreno
+ * @author Cristhian Richard Alvarez Caicedo
+ * @author Cristhian Waldir De La Cruz Sanchez
  */
 public class eliminar extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
